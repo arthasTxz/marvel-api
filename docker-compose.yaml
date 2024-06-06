@@ -1,0 +1,32 @@
+services:
+  marvel-api:
+    container_name: marvel-api
+    build: .
+    ports:
+      - "8001:8001"
+    networks:
+      - marvel-network
+    depends_on:
+      - postgres
+    env_file:
+      - ./.env
+  postgres:
+    container_name: postgresql
+    image: postgres
+    ports:
+      - "5532:5432"
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=marvel_database
+    volumes:
+      - data-postgres:/var/lib/postgresql/data
+    networks:
+      - marvel-network
+
+volumes:
+  data-postgres:
+
+networks:
+  marvel-network:
+
+
